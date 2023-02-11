@@ -1,5 +1,9 @@
 # Strawberry Django JWT
 
+*This project will no longer be updated. Feel free to fork the code or refer to other libraries such as [strawberry-django-auth](https://github.com/nrbnlulu/strawberry-django-auth)*
+
+---
+
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/strawberry-django-jwt?style=for-the-badge)](https://pypi.org/project/strawberry-django-jwt/)
 
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/KundaPanda/strawberry-django-jwt?style=for-the-badge)](https://github.com/KundaPanda/strawberry-django-jwt/graphs/commit-activity)
