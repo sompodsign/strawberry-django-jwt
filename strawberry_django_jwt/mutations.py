@@ -2,7 +2,7 @@ import inspect
 
 from django.contrib.auth import get_user_model
 import strawberry
-from strawberry.field import StrawberryField
+from strawberry.types.field import StrawberryField
 from strawberry.types import Info
 
 from strawberry_django_jwt import mixins

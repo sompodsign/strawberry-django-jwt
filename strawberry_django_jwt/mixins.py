@@ -4,7 +4,7 @@ from typing import Any, Dict, Optional, Type, Union
 from asgiref.sync import sync_to_async
 from django.utils.translation import gettext as _
 import strawberry
-from strawberry.field import StrawberryField
+from strawberry.types.field import StrawberryField
 from strawberry.types import Info
 from strawberry_django.fields.field import StrawberryDjangoField
 
