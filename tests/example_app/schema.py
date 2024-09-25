@@ -48,4 +48,4 @@ class MutationAsync:
 
 
 schema = Schema(query=Query, mutation=MutationAsync, extensions=[AsyncJSONWebTokenMiddleware])
-sync_schema = Schema(query=Query, mutation=Mutation, extensions=[JSONWebTokenMiddleware])
+sync_schema = Schema(query=Query, mutation=Mutation)

@@ -18,25 +18,24 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["url", "username", "email", "is_staff"]
 
 
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-router = DefaultRouter()
-router.register(r"", UserViewSet, basename="user")
+# # ViewSets define the view behavior.
+# class UserViewSet(viewsets.ModelViewSet):
+#     permission_classes = [IsAuthenticated]
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#
+#
+# router = DefaultRouter()
+# router.register(r"", UserViewSet, basename="user")
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     re_path(r"^graphql/?$", jwt_cookie(AGQLView.as_view(schema=schema)), name="graphql"),
     re_path(
-        r"^sync-graphql/?$",
-        jwt_cookie(GQLView.as_view(schema=sync_schema)),
+        r"^sync-graphql/?$", GQLView.as_view(schema=sync_schema),
         name="sync_graphql",
     ),
-    path("users", include(router.urls)),
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    # path("users", include(router.urls)),
+    # path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
