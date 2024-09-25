@@ -21,10 +21,10 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.12"
 Django = [
-    { version = ">=3.2,<4", markers = "python_version < '3.8'", optional = true },
-    { version = ">=3.2,<5", markers = "python_version >= '3.8'", optional = true }
+    { version = ">=3.2,<=4", markers = "python_version < '3.8'", optional = true },
+    { version = ">=3.2,<=5", markers = "python_version >= '3.8'", optional = true }
 ]
 PyJWT = ">=1.7.1,<3.0"
 strawberry-graphql = ">=0.121.1,<1.0"
@@ -46,7 +46,6 @@ django-stubs = { extras = ["compatible-mypy"], version = "<1.12.0" }
 django-mock-queries = "^2.1.7"
 types-mock = "^4.0.0"
 types-jwt = "^0.1.0"
-types-pkg-resources = "^0.1.0"
 djangorestframework-stubs = "^1.4.0"
 djangorestframework = "^3.12.4"
 nox-poetry = "^1.0.1"
