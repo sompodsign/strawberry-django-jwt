@@ -72,7 +72,7 @@ def jwt_payload(user, _=None):
 
 def jwt_encode(payload: object_types.TokenPayloadType, _=None) -> str:
     token = jwt.encode(
-        payload.__dict__,
+        payload,
         jwt_settings.JWT_PRIVATE_KEY or jwt_settings.JWT_SECRET_KEY,
         jwt_settings.JWT_ALGORITHM,
     )
