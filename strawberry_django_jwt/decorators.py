@@ -2,7 +2,7 @@ from calendar import timegm
 from datetime import datetime
 from functools import wraps
 import inspect
-
+from .utils import is_async
 from asgiref.sync import sync_to_async
 from django.contrib.auth import get_user_model
 import django.contrib.auth.base_user
@@ -11,8 +11,6 @@ from django.middleware.csrf import rotate_token
 from django.utils.translation import gettext as _
 import strawberry
 from strawberry.types import Info
-#TODO: FIX is_async not import error
-from strawberry_django.utils import is_async
 
 from strawberry_django_jwt import exceptions, signals
 from strawberry_django_jwt.auth import authenticate

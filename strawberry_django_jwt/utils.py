@@ -259,3 +259,14 @@ async def create_user_token(user: User) -> object_types.TokenDataType:
 
     signals.token_issued.send(sender=create_user_token, request=None, user=user)
     return token_object
+
+
+def is_async() -> bool:
+    # django uses the same method to detect async operation
+    # https://github.com/django/django/blob/bb076476cf560b988f8d80dbbc4a3c85df54b1b9/django/utils/asyncio.py
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return False
+    else:
+        return True
