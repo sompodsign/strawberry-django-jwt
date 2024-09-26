@@ -71,8 +71,6 @@ def jwt_payload(user, _=None):
 
 
 def jwt_encode(payload: object_types.TokenPayloadType, _=None) -> str:
-    # convert payload to dict from TokenType
-    # payload = payload.dict()
     token = jwt.encode(
         payload.__dict__,
         jwt_settings.JWT_PRIVATE_KEY or jwt_settings.JWT_SECRET_KEY,
