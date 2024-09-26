@@ -1,6 +1,7 @@
 from typing import List
 
 import strawberry
+from mypyc.doc.conf import extensions
 from strawberry import Schema
 
 from strawberry_django_jwt.decorators import login_required
@@ -14,7 +15,7 @@ import strawberry_django_jwt.mutations as jwt_mutations
 @strawberry.type
 class Query:
     @strawberry.field
-    @login_required
+    # @login_required
     async def week_days(self) -> List[str]:
         return [
             "Monday",

@@ -37,6 +37,7 @@ class TokenPayloadType:
     origIat: int = 0
 
 
+
 @strawberry.type
 class PayloadType:
     payload: TokenPayloadType
