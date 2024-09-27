@@ -71,9 +71,8 @@ class BaseJSONWebTokenMiddleware(Extension):
 
             if user is not None:
                 context.user = user
-
             elif hasattr(context, "user"):
-                if hasattr(context, "session"):
+                if hasattr(context, "session") and context.user.is_authenticated:
                     context.user = get_user(context)
                     self.cached_authentication.insert(info.path, context.user)
                 else:
@@ -81,12 +80,14 @@ class BaseJSONWebTokenMiddleware(Extension):
 
         if (_authenticate(context) or token_argument is not None) and self.authenticate_context(info, **kwargs):
             return context, token_argument
+
         elif (
-            info.field_name == "__schema"
-            and cast(GraphQLResolveInfo, info).parent_type.name == "Query"
-            and jwt_settings.JWT_AUTHENTICATE_INTROSPECTION
-            and self.authenticate_context(info, **kwargs)
+                info.field_name == "__schema"
+                and cast(GraphQLResolveInfo, info).parent_type.name == "Query"
+                and jwt_settings.JWT_AUTHENTICATE_INTROSPECTION
         ):
+            if context.user.is_authenticated:
+                return context, token_argument
 
             raise exceptions.PermissionDenied(_("The introspection query requires authentication."))
 
