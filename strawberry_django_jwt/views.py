@@ -1,8 +1,14 @@
-from typing import Optional, cast
+from typing import Optional, cast, Any, Union
 
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from asgiref.sync import sync_to_async
+from django.contrib.auth.mixins import AccessMixin
+from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseNotAllowed, HttpResponseBase
+from django.template.response import TemplateResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from strawberry.django.views import AsyncGraphQLView, BaseView, GraphQLView
 from strawberry.http import GraphQLHTTPResponse, process_result
+from strawberry.http.exceptions import HTTPException
 from strawberry.types import ExecutionResult
 
 from strawberry_django_jwt.exceptions import JSONWebTokenError
@@ -43,3 +49,21 @@ class AsyncStatusHandlingGraphQLView(BaseStatusHandlingGraphQLView, AsyncGraphQL
         if result.errors and any(isinstance(err, JSONWebTokenError) for err in [e.original_error for e in result.errors]):
             res["status"] = 401
         return res
+
+
+class ProtectedAsyncGraphQLView(AccessMixin, AsyncGraphQLView):
+    @method_decorator(csrf_exempt)
+    async def dispatch(  # pyright: ignore
+        self, request: HttpRequest, *args: Any, **kwargs: Any
+    ) -> Union[HttpResponseNotAllowed, TemplateResponse, HttpResponseBase]:
+        is_authenticated = await sync_to_async(lambda: request.user.is_authenticated)()
+        if request.method.upper() == 'GET' and not is_authenticated:
+            return self.handle_no_permission()
+
+        try:
+            return await self.run(request=request)
+        except HTTPException as e:
+            return HttpResponse(
+                content=e.reason,
+                status=e.status_code,
+            )
