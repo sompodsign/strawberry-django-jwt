@@ -16,7 +16,7 @@ from strawberry_django_jwt.settings import jwt_settings
 from strawberry_django_jwt.utils import (
     get_context,
     get_http_authorization,
-    get_token_argument,
+    get_credentials
 )
 
 __all__ = [
@@ -64,7 +64,7 @@ class BaseJSONWebTokenMiddleware(Extension):
 
     def resolve_base(self, info: GraphQLResolveInfo, **kwargs):
         context = get_context(info)
-        token_argument = get_token_argument(context, **kwargs)
+        token_argument = get_credentials(context, **kwargs)
 
         if jwt_settings.JWT_ALLOW_ARGUMENT and token_argument is None:
             user = self.cached_authentication.parent(info.path)
